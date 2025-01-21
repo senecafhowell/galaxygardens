@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const canvas = document.getElementById('canvas');
     const context = canvas.getContext('2d');
     const markerDetector = new jsfeat.feature_detector.fast_corners(20);
-    const url = "https://o365coloradoedu-my.sharepoint.com/:i:/g/personal/seho9177_colorado_edu/EYqztB_J3v1Hk2HFs5EjIlABBdSvym3J1fNMxpjEJ5jp6w?e=hDxPoc";
+    const url = 'luminara/chiaroscurocycles.html' ;
 
     function setupCamera() {
         navigator.mediaDevices.getUserMedia({ video: true })

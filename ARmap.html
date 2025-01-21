@@ -8,7 +8,7 @@
 </head>
 <body style="margin: 0; overflow: hidden;">
     <a-scene embedded arjs='sourceType: webcam;'>
-        <a-marker preset="custom" type='pattern' url='ARcodes/pattern-ChiaroscuroCyclesLogo.patt' 
+        <a-marker preset="custom" type='pattern' url='ARcodes/pattern-chiaroscurocycleslogo.patt' 
                   markerhandler emitevents="true" id="cyclesMarker">
             <a-box position="0 0.5 0" material="opacity: 0.5;"></a-box>
         </a-marker>
@@ -16,7 +16,7 @@
     </a-scene>
     <script>
         document.addEventListener('markerFound', (e) => {
-            const url = 'https://galaxygardens.info/luminara/chiaroscurocycles.html' ;
+            const url = 'luminara/chiaroscurocycles.html' ;
             window.location.href = url;
         });
     </script>
