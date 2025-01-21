@@ -2,31 +2,59 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background: #e0e0e0;
-    color: #333;
+    background: #000;
+    color: #ccc;
+    background-image: url('https://example.com/images/starry-sky.jpg'); /* Replace with the path to your starry background image */
+    background-size: cover;
+    background-attachment: fixed;
 }
 
 header {
-    background: #333;
+    background: rgba(50, 50, 50, 0.8);
     color: #fff;
-    padding: 10px 20px;
+    padding: 20px;
     text-align: center;
+    font-size: 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 section {
     padding: 20px;
-    margin: 10px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin: 20px auto;
+    width: 80%;
+    max-width: 960px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 footer {
     text-align: center;
-    padding: 10px 20px;
-    background: #333;
+    padding: 15px 20px;
+    background: rgba(50, 50, 50, 0.9);
     color: #fff;
     position: fixed;
     bottom: 0;
     width: 100%;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+
+h1, h2 {
+    text-shadow: 0 0 5px rgba(0, 255, 255, 1);
+}
+
+a {
+    color: #0af;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #1ff;
+    text-decoration: underline;
+}
+
+p {
+    line-height: 1.6;
 }
