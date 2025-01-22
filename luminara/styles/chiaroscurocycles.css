@@ -1,60 +1,93 @@
-body {
-    font-family: 'Arial', sans-serif;
+/* Basic reset and global settings */
+body, h1, h2, p, ul, li {
     margin: 0;
     padding: 0;
-    background: #000;
-    color: #ccc;
-    background-image: url('https://example.com/images/starry-sky.jpg'); /* Replace with the path to your starry background image */
-    background-size: cover;
-    background-attachment: fixed;
+    list-style: none;
 }
 
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    background: #f4f4f4;
+    line-height: 1.6;
+}
+
+/* Header and navigation styles */
 header {
-    background: rgba(50, 50, 50, 0.8);
+    background: #000;
     color: #fff;
-    padding: 20px;
-    text-align: center;
-    font-size: 24px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-section {
-    padding: 20px;
-    margin: 20px auto;
-    width: 80%;
-    max-width: 960px;
-    background: rgba(0, 0, 0, 0.8);
-    border-radius: 10px;
-    box-shadow: 0 2px 15px rgba(0, 255, 255, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+header .logo {
+    width: 150px;
 }
 
-footer {
-    text-align: center;
-    padding: 15px 20px;
-    background: rgba(50, 50, 50, 0.9);
+nav ul {
+    display: flex;
+}
+
+nav ul li {
+    margin-left: 20px;
+}
+
+nav ul li a {
     color: #fff;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-
-h1, h2 {
-    text-shadow: 0 0 5px rgba(0, 255, 255, 1);
-}
-
-a {
-    color: #0af;
     text-decoration: none;
 }
 
-a:hover {
-    color: #1ff;
-    text-decoration: underline;
+/* Main content and sections */
+main {
+    padding: 20px;
 }
 
-p {
-    line-height: 1.6;
+.hero-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+section {
+    background: #fff;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 10px;
+    background: #0078d4;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.button:hover {
+    background: #0056a3;
+}
+
+/* Footer styles */
+footer {
+    text-align: center;
+    padding: 10px 20px;
+    background: #000;
+    color: #fff;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    header, nav ul {
+        flex-direction: column;
+    }
+
+    nav ul li {
+        margin: 5px 0;
+    }
 }
