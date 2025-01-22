@@ -17,7 +17,7 @@ body {
 header {
     background: #000;
     color: #fff;
-    padding: 10px 20px;
+    padding: 10px 15px; /* Slightly reduced padding to allow more space for content */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -28,15 +28,16 @@ header {
 }
 
 header .logo {
-    width: 150px;
+    width: 180px; /* Increased width from 150px to 180px */
 }
 
 nav ul {
     display: flex;
+    align-items: center; /* Aligns items vertically */
 }
 
 nav ul li {
-    margin-left: 20px;
+    margin-left: 15px; /* Reduced margin from 20px to 15px */
 }
 
 nav ul li a {
@@ -46,27 +47,19 @@ nav ul li a {
 
 /* Main content and sections */
 main {
-    padding-left: 0; /* Adjust padding to allow full-width hero image */
-    padding-right: 0; /* Adjust padding to allow full-width hero image */
-}
-
-section#hero {
-    margin: 0; /* Removes margin to allow full-width */
-    padding: 0; /* Removes padding to allow full-width */
-    box-shadow: none; /* Removes shadow to eliminate the box effect */
-    border-radius: 0; /* Removes border radius */
+    padding: 20px;
 }
 
 .hero-image {
-    width: 100vw; /* Sets the width to cover the viewport width */
-    position: relative; /* Adjusts position to align correctly */
-    left: 50%; /* Moves the image to the exact center */
+    width: 100vw;
+    position: relative;
+    left: 50%;
     right: 50%;
-    margin-left: -50vw; /* Pulls the image back to the left edge */
-    margin-right: -50vw; /* Ensures no horizontal scrollbar appears */
-    max-height: none; /* Removes max-height restriction */
-    height: auto; /* Maintains aspect ratio */
-    object-fit: cover; /* Ensures the image covers the area without distortion */
+    margin-left: -50vw;
+    margin-right: -50vw;
+    max-height: none;
+    height: auto;
+    object-fit: cover;
 }
 
 section {
@@ -106,10 +99,10 @@ footer {
     }
 
     nav ul li {
-        margin: 5px 0;
+        margin: 5px 0; /* Adjusts margin for mobile */
     }
 
     header .logo {
-        margin-bottom: 10px;
+        margin-bottom: 10px; /* Adds margin below the logo on mobile */
     }
 }
