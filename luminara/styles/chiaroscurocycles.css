@@ -10,6 +10,7 @@ body {
     color: #333;
     background: #f4f4f4;
     line-height: 1.6;
+    overflow-x: hidden; /* Prevents horizontal scrolling */
 }
 
 /* Header and navigation styles */
@@ -23,6 +24,7 @@ header {
     position: sticky;
     top: 0;
     z-index: 1000;
+    width: 100%; /* Ensures the header stretches fully across */
 }
 
 header .logo {
@@ -45,6 +47,7 @@ nav ul li a {
 /* Main content and sections */
 main {
     padding: 20px;
+    padding-top: 0; /* Removes padding above the first section */
 }
 
 .hero-image {
@@ -57,7 +60,7 @@ main {
 
 section {
     background: #fff;
-    margin-top: 20px;
+    margin: 20px;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
