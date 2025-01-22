@@ -28,7 +28,7 @@ header {
 }
 
 header .logo {
-    width: 300px;
+    width: 150px;
 }
 
 nav ul {
@@ -46,21 +46,31 @@ nav ul li a {
 
 /* Main content and sections */
 main {
-    padding: 20px;
-    padding-top: 0; /* Removes padding above the first section */
+    padding-left: 0; /* Adjust padding to allow full-width hero image */
+    padding-right: 0; /* Adjust padding to allow full-width hero image */
+}
+
+section#hero {
+    margin: 0; /* Removes margin to allow full-width */
+    padding: 0; /* Removes padding to allow full-width */
+    box-shadow: none; /* Removes shadow to eliminate the box effect */
+    border-radius: 0; /* Removes border radius */
 }
 
 .hero-image {
-    width: 100%;
-    height: auto;
-    display: block;
-    max-height: 200px; /* Limit the height of the hero image */
+    width: 100vw; /* Sets the width to cover the viewport width */
+    position: relative; /* Adjusts position to align correctly */
+    left: 50%; /* Moves the image to the exact center */
+    right: 50%;
+    margin-left: -50vw; /* Pulls the image back to the left edge */
+    margin-right: -50vw; /* Ensures no horizontal scrollbar appears */
+    max-height: none; /* Removes max-height restriction */
+    height: auto; /* Maintains aspect ratio */
     object-fit: cover; /* Ensures the image covers the area without distortion */
 }
 
 section {
     background: #fff;
-    margin: 20px;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
