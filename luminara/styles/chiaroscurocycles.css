@@ -17,7 +17,7 @@ body {
 header {
     background: #000;
     color: #fff;
-    padding: 10px 15px; /* Slightly reduced padding to allow more space for content */
+    padding: 5px 15px; /* Reduced vertical padding for a thinner header */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -28,7 +28,7 @@ header {
 }
 
 header .logo {
-    width: 180px; /* Increased width from 150px to 180px */
+    width: 200px; /* Further increased width for the logo */
 }
 
 nav ul {
@@ -37,12 +37,13 @@ nav ul {
 }
 
 nav ul li {
-    margin-left: 15px; /* Reduced margin from 20px to 15px */
+    margin-left: 10px; /* Reduced margin to save horizontal space */
 }
 
 nav ul li a {
     color: #fff;
     text-decoration: none;
+    font-size: 0.9em; /* Reduced font size to prevent cutting off */
 }
 
 /* Main content and sections */
@@ -102,7 +103,12 @@ footer {
         margin: 5px 0; /* Adjusts margin for mobile */
     }
 
-    header .logo {
+    header . logo {
         margin-bottom: 10px; /* Adds margin below the logo on mobile */
+        width: 100%; /* Sets logo width to 100% on mobile for better visibility */
+    }
+
+    nav ul li a {
+        font-size: 1em; /* Adjust font size for better readability on mobile */
     }
 }
