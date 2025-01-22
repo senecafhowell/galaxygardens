@@ -20,6 +20,9 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 header .logo {
@@ -48,6 +51,8 @@ main {
     width: 100%;
     height: auto;
     display: block;
+    max-height: 200px; /* Limit the height of the hero image */
+    object-fit: cover; /* Ensures the image covers the area without distortion */
 }
 
 section {
@@ -89,5 +94,9 @@ footer {
 
     nav ul li {
         margin: 5px 0;
+    }
+
+    header .logo {
+        margin-bottom: 10px;
     }
 }
