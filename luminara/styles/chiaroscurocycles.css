@@ -17,7 +17,7 @@ body {
 header {
     background: #000;
     color: #fff;
-    padding: 5px 15px; /* Reduced vertical padding for a thinner header */
+    padding: 5px 10px; /* Reduced padding for thinner header */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -28,22 +28,22 @@ header {
 }
 
 header .logo {
-    width: 200px; /* Further increased width for the logo */
+    height: 50px; /* Adjust logo size by height to ensure it fits and is visible */
 }
 
 nav ul {
     display: flex;
-    align-items: center; /* Aligns items vertically */
+    align-items: center; /* Ensures vertical centering */
 }
 
 nav ul li {
-    margin-left: 10px; /* Reduced margin to save horizontal space */
+    margin-left: 10px; /* Tighter spacing */
 }
 
 nav ul li a {
     color: #fff;
     text-decoration: none;
-    font-size: 0.9em; /* Reduced font size to prevent cutting off */
+    font-size: 16px; /* Explicitly set font size for better control */
 }
 
 /* Main content and sections */
@@ -103,12 +103,11 @@ footer {
         margin: 5px 0; /* Adjusts margin for mobile */
     }
 
-    header . logo {
-        margin-bottom: 10px; /* Adds margin below the logo on mobile */
-        width: 100%; /* Sets logo width to 100% on mobile for better visibility */
+    header .logo {
+        height: 40px; /* Adjusted for mobile view */
     }
 
     nav ul li a {
-        font-size: 1em; /* Adjust font size for better readability on mobile */
+        font-size: 14px; /* Adjust font size for mobile */
     }
 }
