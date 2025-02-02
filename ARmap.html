@@ -9,16 +9,15 @@
         #infoButton {
             display: none;
             position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 10px 20px;
-            font-size: 18px;
+            padding: 10px 15px;
+            font-size: 16px;
             background-color: #007BFF;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transform: translate(-50%, -50%);
+            z-index: 10;
         }
     </style>
 </head>
@@ -26,7 +25,7 @@
     <a-scene embedded arjs='sourceType: webcam;'>
         <a-marker preset="custom" type='pattern' url='ARcodes/pattern-chiaroscurocycleslogo.patt' 
                   emitevents="true" id="cyclesMarker">
-            <a-box position="0 0.5 0" material="opacity: 0.5;"></a-box>
+            <!-- Removed the translucent box by not including it -->
         </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
@@ -50,6 +49,19 @@
             infoButton.addEventListener('click', () => {
                 window.location.href = url;
             });
+
+            // Function to position the button over the marker dynamically
+            function updateButtonPosition() {
+                const markerElement = document.querySelector('[type="pattern"]');
+                if (markerElement) {
+                    const rect = markerElement.getBoundingClientRect();
+                    infoButton.style.left = `${rect.left + rect.width / 2}px`;
+                    infoButton.style.top = `${rect.top + rect.height / 2}px`;
+                }
+                requestAnimationFrame(updateButtonPosition);
+            }
+
+            requestAnimationFrame(updateButtonPosition);
         });
     </script>
 </body>
