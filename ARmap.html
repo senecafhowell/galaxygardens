@@ -18,6 +18,7 @@
             cursor: pointer;
             transform: translate(-50%, -50%);
             z-index: 10;
+            transition: transform 0.1s ease-out, left 0.1s ease-out, top 0.1s ease-out;
         }
     </style>
 </head>
@@ -25,7 +26,6 @@
     <a-scene embedded arjs="sourceType: webcam;">
         <a-marker preset="custom" type="pattern" url="ARcodes/pattern-chiaroscurocycleslogo.patt"
                   emitevents="true" id="cyclesMarker">
-            <!-- Removed the translucent box -->
         </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
@@ -37,7 +37,11 @@
             const infoButton = document.getElementById("infoButton");
             const marker = document.getElementById("cyclesMarker");
             const scene = document.querySelector("a-scene");
+            const camera = scene.camera;
             const url = "luminara/chiaroscurocycles.html";
+            
+            let lastX = 0;
+            let lastY = 0;
 
             marker.addEventListener("markerFound", () => {
                 infoButton.style.display = "block";
@@ -52,22 +56,27 @@
             });
 
             function updateButtonPosition() {
-                const markerEntity = scene.querySelector("#cyclesMarker");
-                const camera = scene.camera;
-                
-                if (markerEntity.object3D.visible) {
-                    const markerPosition = markerEntity.object3D.position.clone();
-                    const screenPosition = markerPosition.project(camera);
-
-                    const windowWidth = window.innerWidth;
-                    const windowHeight = window.innerHeight;
-
-                    const x = (screenPosition.x * 0.5 + 0.5) * windowWidth;
-                    const y = (1 - (screenPosition.y * 0.5 + 0.5)) * windowHeight;
-
-                    infoButton.style.left = `${x}px`;
-                    infoButton.style.top = `${y}px`;
+                if (!marker.object3D.visible) {
+                    infoButton.style.display = "none";
+                    return;
                 }
+
+                // Get marker world position
+                const markerPosition = new THREE.Vector3();
+                marker.object3D.getWorldPosition(markerPosition);
+
+                // Convert world position to screen space
+                const vector = markerPosition.project(camera);
+                
+                const x = (vector.x * 0.5 + 0.5) * window.innerWidth;
+                const y = (1 - (vector.y * 0.5 + 0.5)) * window.innerHeight;
+
+                // Apply smoothing (easing effect)
+                lastX = lastX * 0.9 + x * 0.1;
+                lastY = lastY * 0.9 + y * 0.1;
+
+                infoButton.style.left = `${lastX}px`;
+                infoButton.style.top = `${lastY}px`;
 
                 requestAnimationFrame(updateButtonPosition);
             }
