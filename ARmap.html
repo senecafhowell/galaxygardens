@@ -7,7 +7,7 @@
     <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
     <style>
         #infoButton {
-            display: none;
+            display: none; /* Initially hidden */
             position: absolute;
             padding: 10px 15px;
             font-size: 16px;
@@ -17,7 +17,7 @@
             border-radius: 5px;
             cursor: pointer;
             transform: translate(-50%, -50%);
-            z-index: 10;
+            z-index: 1000; /* Ensures it's above everything */
             transition: left 0.1s ease-out, top 0.1s ease-out;
         }
     </style>
@@ -37,68 +37,50 @@
             const infoButton = document.getElementById("infoButton");
             const marker = document.getElementById("cyclesMarker");
             const scene = document.querySelector("a-scene");
+            const camera = scene.camera;
             const url = "luminara/chiaroscurocycles.html";
-
             let markerVisible = false;
-            let lastX = window.innerWidth / 2;
-            let lastY = window.innerHeight / 2;
-
-            // DEBUG: Log marker detection
+            
+            // Debugging: Ensure marker detection is working
             marker.addEventListener("markerFound", () => {
-                console.log("AR Marker Found!");
+                console.log("✅ Marker Found!");
                 markerVisible = true;
-                infoButton.style.display = "block";  // Ensure the button is visible
+                infoButton.style.display = "block";  // Force the button to appear
             });
 
             marker.addEventListener("markerLost", () => {
-                console.log("AR Marker Lost!");
+                console.log("❌ Marker Lost!");
                 markerVisible = false;
                 infoButton.style.display = "none";
             });
 
-            // Button click event
             infoButton.addEventListener("click", () => {
                 window.location.href = url;
             });
 
             function updateButtonPosition() {
-                if (!markerVisible) {
-                    return;
-                }
+                if (!markerVisible) return;
 
                 const markerEntity = marker.object3D;
-                const camera = scene.camera;
+                if (!markerEntity || !markerEntity.visible) return;
 
-                if (!markerEntity || !markerEntity.visible) {
-                    console.log("Marker not visible in 3D space.");
-                    infoButton.style.display = "none";
-                    return;
-                }
-
+                // Get 3D world position of the marker
                 const markerPosition = new THREE.Vector3();
                 markerEntity.getWorldPosition(markerPosition);
 
-                // Convert 3D world position to 2D screen position
-                const vector = markerPosition.project(camera);
-
                 // Convert to screen space
+                const vector = markerPosition.project(camera);
                 const x = (vector.x * 0.5 + 0.5) * window.innerWidth;
                 const y = (1 - (vector.y * 0.5 + 0.5)) * window.innerHeight;
 
-                // Apply a slight smoothing effect to avoid jitter
-                lastX = lastX * 0.8 + x * 0.2;
-                lastY = lastY * 0.8 + y * 0.2;
-
-                infoButton.style.left = `${lastX}px`;
-                infoButton.style.top = `${lastY}px`;
+                // Set position with easing
+                infoButton.style.left = `${x}px`;
+                infoButton.style.top = `${y}px`;
 
                 requestAnimationFrame(updateButtonPosition);
             }
 
-            setTimeout(() => {
-                console.log("Starting tracking...");
-                requestAnimationFrame(updateButtonPosition);
-            }, 1000); // Delay to ensure rendering setup
+            requestAnimationFrame(updateButtonPosition);
         });
     </script>
 </body>
