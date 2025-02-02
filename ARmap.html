@@ -18,7 +18,7 @@
             cursor: pointer;
             transform: translate(-50%, -50%);
             z-index: 10;
-            transition: transform 0.1s ease-out, left 0.1s ease-out, top 0.1s ease-out;
+            transition: left 0.1s ease-out, top 0.1s ease-out;
         }
     </style>
 </head>
@@ -39,20 +39,23 @@
             const scene = document.querySelector("a-scene");
             const url = "luminara/chiaroscurocycles.html";
 
+            let markerVisible = false;
             let lastX = window.innerWidth / 2;
             let lastY = window.innerHeight / 2;
-            let markerVisible = false;
 
+            // Event listener when marker is found
             marker.addEventListener("markerFound", () => {
                 markerVisible = true;
                 infoButton.style.display = "block";
             });
 
+            // Event listener when marker is lost
             marker.addEventListener("markerLost", () => {
                 markerVisible = false;
                 infoButton.style.display = "none";
             });
 
+            // Button click event
             infoButton.addEventListener("click", () => {
                 window.location.href = url;
             });
@@ -73,14 +76,16 @@
                 const markerPosition = new THREE.Vector3();
                 markerEntity.getWorldPosition(markerPosition);
 
-                const screenPosition = markerPosition.project(camera);
+                // Convert 3D world position to 2D screen position
+                const vector = markerPosition.project(camera);
 
-                const x = (screenPosition.x * 0.5 + 0.5) * window.innerWidth;
-                const y = (1 - (screenPosition.y * 0.5 + 0.5)) * window.innerHeight;
+                // Convert to screen space
+                const x = (vector.x * 0.5 + 0.5) * window.innerWidth;
+                const y = (1 - (vector.y * 0.5 + 0.5)) * window.innerHeight;
 
-                // Apply smoothing
-                lastX = lastX * 0.9 + x * 0.1;
-                lastY = lastY * 0.9 + y * 0.1;
+                // Apply a slight smoothing effect to avoid jitter
+                lastX = lastX * 0.8 + x * 0.2;
+                lastY = lastY * 0.8 + y * 0.2;
 
                 infoButton.style.left = `${lastX}px`;
                 infoButton.style.top = `${lastY}px`;
