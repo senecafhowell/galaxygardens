@@ -37,17 +37,19 @@
             const infoButton = document.getElementById("infoButton");
             const marker = document.getElementById("cyclesMarker");
             const scene = document.querySelector("a-scene");
-            const camera = scene.camera;
             const url = "luminara/chiaroscurocycles.html";
-            
-            let lastX = 0;
-            let lastY = 0;
+
+            let lastX = window.innerWidth / 2;
+            let lastY = window.innerHeight / 2;
+            let markerVisible = false;
 
             marker.addEventListener("markerFound", () => {
+                markerVisible = true;
                 infoButton.style.display = "block";
             });
 
             marker.addEventListener("markerLost", () => {
+                markerVisible = false;
                 infoButton.style.display = "none";
             });
 
@@ -56,22 +58,27 @@
             });
 
             function updateButtonPosition() {
-                if (!marker.object3D.visible) {
+                if (!markerVisible) {
+                    return;
+                }
+
+                const markerEntity = marker.object3D;
+                const camera = scene.camera;
+
+                if (!markerEntity || !markerEntity.visible) {
                     infoButton.style.display = "none";
                     return;
                 }
 
-                // Get marker world position
                 const markerPosition = new THREE.Vector3();
-                marker.object3D.getWorldPosition(markerPosition);
+                markerEntity.getWorldPosition(markerPosition);
 
-                // Convert world position to screen space
-                const vector = markerPosition.project(camera);
-                
-                const x = (vector.x * 0.5 + 0.5) * window.innerWidth;
-                const y = (1 - (vector.y * 0.5 + 0.5)) * window.innerHeight;
+                const screenPosition = markerPosition.project(camera);
 
-                // Apply smoothing (easing effect)
+                const x = (screenPosition.x * 0.5 + 0.5) * window.innerWidth;
+                const y = (1 - (screenPosition.y * 0.5 + 0.5)) * window.innerHeight;
+
+                // Apply smoothing
                 lastX = lastX * 0.9 + x * 0.1;
                 lastY = lastY * 0.9 + y * 0.1;
 
