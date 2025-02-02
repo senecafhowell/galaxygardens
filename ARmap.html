@@ -43,14 +43,15 @@
             let lastX = window.innerWidth / 2;
             let lastY = window.innerHeight / 2;
 
-            // Event listener when marker is found
+            // DEBUG: Log marker detection
             marker.addEventListener("markerFound", () => {
+                console.log("AR Marker Found!");
                 markerVisible = true;
-                infoButton.style.display = "block";
+                infoButton.style.display = "block";  // Ensure the button is visible
             });
 
-            // Event listener when marker is lost
             marker.addEventListener("markerLost", () => {
+                console.log("AR Marker Lost!");
                 markerVisible = false;
                 infoButton.style.display = "none";
             });
@@ -69,6 +70,7 @@
                 const camera = scene.camera;
 
                 if (!markerEntity || !markerEntity.visible) {
+                    console.log("Marker not visible in 3D space.");
                     infoButton.style.display = "none";
                     return;
                 }
@@ -93,7 +95,10 @@
                 requestAnimationFrame(updateButtonPosition);
             }
 
-            requestAnimationFrame(updateButtonPosition);
+            setTimeout(() => {
+                console.log("Starting tracking...");
+                requestAnimationFrame(updateButtonPosition);
+            }, 1000); // Delay to ensure rendering setup
         });
     </script>
 </body>
