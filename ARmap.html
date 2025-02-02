@@ -22,10 +22,10 @@
     </style>
 </head>
 <body style="margin: 0; overflow: hidden;">
-    <a-scene embedded arjs='sourceType: webcam;'>
-        <a-marker preset="custom" type='pattern' url='ARcodes/pattern-chiaroscurocycleslogo.patt' 
+    <a-scene embedded arjs="sourceType: webcam;">
+        <a-marker preset="custom" type="pattern" url="ARcodes/pattern-chiaroscurocycleslogo.patt"
                   emitevents="true" id="cyclesMarker">
-            <!-- Removed the translucent box by not including it -->
+            <!-- Removed the translucent box -->
         </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
@@ -33,31 +33,42 @@
     <button id="infoButton">More Info</button>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const infoButton = document.getElementById('infoButton');
-            const marker = document.getElementById('cyclesMarker');
-            const url = 'luminara/chiaroscurocycles.html';
+        document.addEventListener("DOMContentLoaded", function () {
+            const infoButton = document.getElementById("infoButton");
+            const marker = document.getElementById("cyclesMarker");
+            const scene = document.querySelector("a-scene");
+            const url = "luminara/chiaroscurocycles.html";
 
-            marker.addEventListener('markerFound', () => {
-                infoButton.style.display = 'block';
+            marker.addEventListener("markerFound", () => {
+                infoButton.style.display = "block";
             });
 
-            marker.addEventListener('markerLost', () => {
-                infoButton.style.display = 'none';
+            marker.addEventListener("markerLost", () => {
+                infoButton.style.display = "none";
             });
 
-            infoButton.addEventListener('click', () => {
+            infoButton.addEventListener("click", () => {
                 window.location.href = url;
             });
 
-            // Function to position the button over the marker dynamically
             function updateButtonPosition() {
-                const markerElement = document.querySelector('[type="pattern"]');
-                if (markerElement) {
-                    const rect = markerElement.getBoundingClientRect();
-                    infoButton.style.left = `${rect.left + rect.width / 2}px`;
-                    infoButton.style.top = `${rect.top + rect.height / 2}px`;
+                const markerEntity = scene.querySelector("#cyclesMarker");
+                const camera = scene.camera;
+                
+                if (markerEntity.object3D.visible) {
+                    const markerPosition = markerEntity.object3D.position.clone();
+                    const screenPosition = markerPosition.project(camera);
+
+                    const windowWidth = window.innerWidth;
+                    const windowHeight = window.innerHeight;
+
+                    const x = (screenPosition.x * 0.5 + 0.5) * windowWidth;
+                    const y = (1 - (screenPosition.y * 0.5 + 0.5)) * windowHeight;
+
+                    infoButton.style.left = `${x}px`;
+                    infoButton.style.top = `${y}px`;
                 }
+
                 requestAnimationFrame(updateButtonPosition);
             }
 
