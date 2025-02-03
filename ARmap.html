@@ -33,7 +33,8 @@
                      width="1.5" height="1.5"
                      rotation="-90 0 0" 
                      visible="false"
-                     autoplay="false" loop="true">
+                     loop="true" 
+                     autoplay>
             </a-video>
         </a-marker>
         <a-entity camera></a-entity>
@@ -45,20 +46,27 @@
         document.addEventListener('DOMContentLoaded', function () {
             const infoButton = document.getElementById('infoButton');
             const marker = document.getElementById('cyclesMarker');
-            const videoElement = document.getElementById('videoElement');
+            const videoElement = document.querySelector('#videoElement');
+            const video = videoElement.components.material.material.map.image; // Get actual <video> element
             const url = 'luminara/chiaroscurocycles.html';
 
             marker.addEventListener('markerFound', () => {
                 infoButton.style.display = 'block';
                 videoElement.setAttribute('visible', 'true');
-                videoElement.play();
+
+                // Force video playback (some browsers block autoplay)
+                video.play().catch(error => {
+                    console.error("Video playback failed:", error);
+                });
             });
 
             marker.addEventListener('markerLost', () => {
                 infoButton.style.display = 'none';
                 videoElement.setAttribute('visible', 'false');
-                videoElement.pause();
-                videoElement.currentTime = 0; // Reset video when marker is lost
+
+                // Pause and reset video when marker is lost
+                video.pause();
+                video.currentTime = 0;
             });
 
             infoButton.addEventListener('click', () => {
