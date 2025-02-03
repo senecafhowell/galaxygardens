@@ -35,12 +35,15 @@
         document.addEventListener("DOMContentLoaded", function () {
             const infoButton = document.getElementById("infoButton");
             const marker = document.getElementById("cyclesMarker");
-            const camera = document.querySelector("[camera]").object3D;
             const sceneEl = document.querySelector("a-scene");
+
             const url = "luminara/chiaroscurocycles.html";
 
             function updateButtonPosition() {
-                if (!marker.object3D.visible) {
+                const marker3D = marker.object3D;
+                const cameraEl = sceneEl.camera;  // Get the AR.js camera
+
+                if (!marker3D.visible || !cameraEl) {
                     infoButton.style.display = "none";
                     requestAnimationFrame(updateButtonPosition);
                     return;
@@ -48,12 +51,10 @@
 
                 // Get marker position in world space
                 const markerPosition = new THREE.Vector3();
-                marker.object3D.getWorldPosition(markerPosition);
+                marker3D.getWorldPosition(markerPosition);
 
-                // Convert world position to screen coordinates
-                const cameraMatrix = camera.matrixWorldInverse;
-                const projectionMatrix = sceneEl.camera.projectionMatrix;
-                const screenPosition = markerPosition.clone().project(sceneEl.camera);
+                // Convert to screen space
+                const screenPosition = markerPosition.project(cameraEl);
 
                 // Convert normalized device coordinates (-1 to 1) to screen pixels
                 const x = (screenPosition.x + 1) / 2 * window.innerWidth;
@@ -79,7 +80,9 @@
                 window.location.href = url;
             });
 
-            updateButtonPosition(); // Start tracking button position
+            sceneEl.addEventListener("loaded", () => {
+                updateButtonPosition(); // Ensure updates start after AR.js initializes
+            });
         });
     </script>
 </body>
