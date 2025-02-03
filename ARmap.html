@@ -9,9 +9,6 @@
         #infoButton {
             display: none;
             position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
             padding: 10px 20px;
             font-size: 18px;
             background-color: #007BFF;
@@ -19,6 +16,7 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transform: translate(-50%, -50%);
         }
     </style>
 </head>
@@ -26,7 +24,6 @@
     <a-scene embedded arjs='sourceType: webcam;'>
         <a-marker preset="custom" type='pattern' url='ARcodes/pattern-chiaroscurocycleslogo.patt' 
                   emitevents="true" id="cyclesMarker">
-            <a-box position="0 0.5 0" material="opacity: 0.5;"></a-box>
         </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
@@ -37,7 +34,30 @@
         document.addEventListener('DOMContentLoaded', function () {
             const infoButton = document.getElementById('infoButton');
             const marker = document.getElementById('cyclesMarker');
+            const camera = document.querySelector('[camera]');
             const url = 'luminara/chiaroscurocycles.html';
+
+            function updateButtonPosition() {
+                const markerEl = marker.object3D;
+                const cameraEl = camera.object3D;
+
+                if (markerEl.visible) {
+                    const position = markerEl.position.clone();
+                    const projected = position.project(cameraEl); // Convert 3D position to screen space
+
+                    // Convert normalized device coordinates (-1 to 1) to screen pixels
+                    const x = (projected.x + 1) / 2 * window.innerWidth;
+                    const y = (-projected.y + 1) / 2 * window.innerHeight;
+
+                    infoButton.style.left = `${x}px`;
+                    infoButton.style.top = `${y}px`;
+                    infoButton.style.display = 'block';
+                } else {
+                    infoButton.style.display = 'none';
+                }
+
+                requestAnimationFrame(updateButtonPosition);
+            }
 
             marker.addEventListener('markerFound', () => {
                 infoButton.style.display = 'block';
@@ -50,6 +70,8 @@
             infoButton.addEventListener('click', () => {
                 window.location.href = url;
             });
+
+            updateButtonPosition(); // Start tracking button position
         });
     </script>
 </body>
