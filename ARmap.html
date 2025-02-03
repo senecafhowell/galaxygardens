@@ -34,20 +34,30 @@
         document.addEventListener('DOMContentLoaded', function () {
             const infoButton = document.getElementById('infoButton');
             const marker = document.getElementById('cyclesMarker');
-            const camera = document.querySelector('[camera]');
+            const camera = document.querySelector('[camera]').object3D;
+            const sceneEl = document.querySelector('a-scene');
+
             const url = 'luminara/chiaroscurocycles.html';
 
             function updateButtonPosition() {
-                const markerEl = marker.object3D;
-                const cameraEl = camera.object3D;
+                const marker3D = marker.object3D;
 
-                if (markerEl.visible) {
-                    const position = markerEl.position.clone();
-                    const projected = position.project(cameraEl); // Convert 3D position to screen space
+                if (marker3D.visible) {
+                    // Get marker position in world space
+                    const markerPosition = new THREE.Vector3();
+                    marker3D.getWorldPosition(markerPosition);
 
-                    // Convert normalized device coordinates (-1 to 1) to screen pixels
-                    const x = (projected.x + 1) / 2 * window.innerWidth;
-                    const y = (-projected.y + 1) / 2 * window.innerHeight;
+                    // Convert world position to screen coordinates
+                    const cameraMatrix = new THREE.Matrix4();
+                    cameraMatrix.copy(camera.matrixWorldInverse);
+
+                    const projectionMatrix = sceneEl.renderer.xr.getCamera(camera).projectionMatrix;
+
+                    const screenPosition = markerPosition.clone().project(projectionMatrix);
+
+                    // Convert from normalized device coordinates (-1 to 1) to screen pixels
+                    const x = (screenPosition.x + 1) / 2 * window.innerWidth;
+                    const y = (-screenPosition.y + 1) / 2 * window.innerHeight;
 
                     infoButton.style.left = `${x}px`;
                     infoButton.style.top = `${y}px`;
