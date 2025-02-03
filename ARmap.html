@@ -27,13 +27,16 @@
         <a-marker preset="custom" type='pattern' url='ARcodes/pattern-chiaroscurocycleslogo.patt' 
                   emitevents="true" id="cyclesMarker">
             <!-- Video element properly oriented -->
-            <a-video id="videoElement" 
-                     src="videos/stars.mp4" 
-                     position="0 0 0" 
-                     width="1.5" height="1.5"
-                     rotation="-90 0 0" 
-                     visible="false"
-                     autoplay="false" loop="true">
+            <a-video id="videoElement"
+                    src="videos/stars.mp4" 
+                    position="0 0 0" 
+                    width="1.5" height="1.5"
+                    rotation="-90 0 0" 
+                    visible="false"
+                    loop="true"
+                    muted
+                    playsinline
+                    autoplay>
             </a-video>
         </a-marker>
         <a-entity camera></a-entity>
