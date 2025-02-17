@@ -33,10 +33,10 @@
                      width="1.5" height="1.5"
                      rotation="-90 0 0" 
                      visible="false"
-                     loop="false" <!-- Changed to not loop -->
+                     loop="false" <!-- No looping -->
                      muted
                      playsinline
-                     autoplay="false"> <!-- Changed to not autoplay -->
+                     autoplay="false"> <!-- No autoplay -->
             </a-video>
         </a-marker>
         <a-entity camera></a-entity>
@@ -54,21 +54,21 @@
             const url = 'luminara/chiaroscurocycles.html';
 
             marker.addEventListener('markerFound', () => {
-                unlockButton.style.display = 'block';
-                infoButton.style.display = 'none';
+                unlockButton.style.display = 'block'; // Show the Unlock button when marker is found
+                videoElement.setAttribute('visible', 'false'); // Ensure video is not visible until button is pressed
             });
 
             marker.addEventListener('markerLost', () => {
-                unlockButton.style.display = 'none';
+                unlockButton.style.display = 'none'; // Hide unlock button when marker is lost
                 videoElement.setAttribute('visible', 'false');
                 videoElement.pause();
                 videoElement.currentTime = 0; // Reset video when marker is lost
+                infoButton.style.display = 'none'; // Ensure Info button is hidden
             });
 
             unlockButton.addEventListener('click', () => {
                 videoElement.setAttribute('visible', 'true');
                 videoElement.play();
-                unlockButton.style.display = 'none'; // Hide unlock button after it's pressed
             });
 
             videoElement.addEventListener('ended', () => {
