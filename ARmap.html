@@ -6,7 +6,7 @@
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
     <style>
-        #infoButton {
+        .button {
             display: none;
             position: absolute;
             bottom: 20px;
@@ -28,40 +28,52 @@
                   emitevents="true" id="cyclesMarker">
             <!-- Video element properly oriented -->
             <a-video id="videoElement"
-                    src="videos/stars.mp4" 
-                    position="0 0 0" 
-                    width="1.5" height="1.5"
-                    rotation="-90 0 0" 
-                    visible="false"
-                    loop="true"
-                    muted
-                    playsinline
-                    autoplay>
+                     src="videos/stars.mp4" 
+                     position="0 0 0" 
+                     width="1.5" height="1.5"
+                     rotation="-90 0 0" 
+                     visible="false"
+                     loop="false" <!-- Changed to not loop -->
+                     muted
+                     playsinline
+                     autoplay="false"> <!-- Changed to not autoplay -->
             </a-video>
         </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
 
-    <button id="infoButton">More Info</button>
+    <button id="unlockButton" class="button">Unlock Character</button>
+    <button id="infoButton" class="button">More Info</button>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            const unlockButton = document.getElementById('unlockButton');
             const infoButton = document.getElementById('infoButton');
             const marker = document.getElementById('cyclesMarker');
             const videoElement = document.getElementById('videoElement');
             const url = 'luminara/chiaroscurocycles.html';
 
             marker.addEventListener('markerFound', () => {
-                infoButton.style.display = 'block';
-                videoElement.setAttribute('visible', 'true');
-                videoElement.play();
+                unlockButton.style.display = 'block';
+                infoButton.style.display = 'none';
             });
 
             marker.addEventListener('markerLost', () => {
-                infoButton.style.display = 'none';
+                unlockButton.style.display = 'none';
                 videoElement.setAttribute('visible', 'false');
                 videoElement.pause();
                 videoElement.currentTime = 0; // Reset video when marker is lost
+            });
+
+            unlockButton.addEventListener('click', () => {
+                videoElement.setAttribute('visible', 'true');
+                videoElement.play();
+                unlockButton.style.display = 'none'; // Hide unlock button after it's pressed
+            });
+
+            videoElement.addEventListener('ended', () => {
+                videoElement.setAttribute('visible', 'false');
+                infoButton.style.display = 'block'; // Show More Info button after video has played
             });
 
             infoButton.addEventListener('click', () => {
