@@ -26,18 +26,15 @@
     <a-scene embedded arjs='sourceType: webcam;'>
         <a-marker preset="custom" type='pattern' url='ARcodes/pattern-chiaroscurocycleslogo.patt' 
                   emitevents="true" id="cyclesMarker">
-            <!-- Video element properly oriented -->
-            <a-video id="videoElement"
-                     src="videos/stars.mp4" 
-                     position="0 0 0" 
-                     width="1.5" height="1.5"
-                     rotation="-90 0 0" 
-                     visible="false"
-                     loop="false" <!-- No looping -->
-                     muted
-                     playsinline
-                     autoplay="false"> <!-- No autoplay -->
-            </a-video>
+            <!-- 3D model properly oriented -->
+            <a-gltf-model id="modelElement"
+                          src="videos/WaveAnimation.gltf"
+                          position="0 0 0"
+                          scale="2 2 2"
+                          rotation="-90 0 0"
+                          animation-mixer
+                          visible="false">
+            </a-gltf-model>
         </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
@@ -50,30 +47,23 @@
             const unlockButton = document.getElementById('unlockButton');
             const infoButton = document.getElementById('infoButton');
             const marker = document.getElementById('cyclesMarker');
-            const videoElement = document.getElementById('videoElement');
+            const modelElement = document.getElementById('modelElement');
             const url = 'luminara/chiaroscurocycles.html';
 
             marker.addEventListener('markerFound', () => {
                 unlockButton.style.display = 'block'; // Show the Unlock button when marker is found
-                videoElement.setAttribute('visible', 'false'); // Ensure video is not visible until button is pressed
+                modelElement.setAttribute('visible', 'false'); // Ensure model is not visible until button is pressed
             });
 
             marker.addEventListener('markerLost', () => {
                 unlockButton.style.display = 'none'; // Hide unlock button when marker is lost
-                videoElement.setAttribute('visible', 'false');
-                videoElement.pause();
-                videoElement.currentTime = 0; // Reset video when marker is lost
+                modelElement.setAttribute('visible', 'false');
+                // Reset model animation if necessary
                 infoButton.style.display = 'none'; // Ensure Info button is hidden
             });
 
             unlockButton.addEventListener('click', () => {
-                videoElement.setAttribute('visible', 'true');
-                videoElement.play();
-            });
-
-            videoElement.addEventListener('ended', () => {
-                videoElement.setAttribute('visible', 'false');
-                infoButton.style.display = 'block'; // Show More Info button after video has played
+                modelElement.setAttribute('visible', 'true');
             });
 
             infoButton.addEventListener('click', () => {
