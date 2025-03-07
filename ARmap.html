@@ -62,15 +62,14 @@
             background: #007BFF;
             color: white;
             border-radius: 6px 6px 0 0;
+            text-align: center;
         }
         .dropdown-content {
             display: none;
             background: white;
             border-radius: 0 0 6px 6px;
             padding: 10px;
-        }
-        .dropdown:hover .dropdown-content {
-            display: block;
+            text-align: center;
         }
     </style>
 </head>
@@ -94,7 +93,7 @@
     <button id="infoButton" class="button">More Info</button>
 
     <!-- Dropdown Menu -->
-    <div class="dropdown">
+    <div class="dropdown" id="dropdownMenu">
         <div class="dropdown-header">Characters Unlocked ▼</div>
         <div class="dropdown-content" id="characterList">
             None
@@ -111,6 +110,8 @@
             const marker = document.getElementById('cyclesMarker');
             const model = document.getElementById('robotModel');
             const characterList = document.getElementById('characterList');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const dropdownContent = document.getElementById('characterList');
             const url = 'luminara/chiaroscurocycles.html';
 
             let mashCount = 0;
@@ -118,6 +119,7 @@
             let gameActive = false;
             let markerVisible = false;
             let characterUnlocked = false;
+            let dropdownOpen = false;
 
             marker.addEventListener('markerFound', () => {
                 markerVisible = true;
@@ -155,6 +157,11 @@
 
             infoButton.addEventListener('click', () => {
                 window.location.href = url;
+            });
+
+            dropdownMenu.addEventListener('click', () => {
+                dropdownOpen = !dropdownOpen;
+                dropdownContent.style.display = dropdownOpen ? "block" : "none";
             });
 
             function handleMash() {
