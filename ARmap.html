@@ -34,11 +34,11 @@
             <!-- Animated GLB Model -->
             <a-entity id="robotModel"
                       gltf-model="#robot"
-                      position="0 0 0"
+                      position="0 0.2 0"
                       scale="2 2 2"
                       visible="false"
-                      animation-mixer="clip: Scene; timeScale: 0.5">
-            </a-entity>
+                      animation-mixer="clip: Scene; timeScale: 0.5; clampWhenFinished: false; crossFadeDuration: 0.5; loop: repeat;">
+                    </a-entity>
         </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
