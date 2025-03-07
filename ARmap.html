@@ -25,7 +25,7 @@
 <body style="margin: 0; overflow: hidden;">
     <a-scene embedded arjs='sourceType: webcam;'>
         <a-assets>
-            <a-asset-item id="robot" src="https://cdn.glitch.global/ee1dacd9-f757-4f69-904b-12ab9a2533f4/futuristic_flying_animated_robot_-_low_poly.glb?v=1741384161669">
+            <a-asset-item id="robot" src="videos/robot.glb">
             </a-asset-item>
         </a-assets>
 
@@ -37,7 +37,7 @@
                       position="0 0 0"
                       scale="2 2 2"
                       visible="false"
-                      animation-mixer="clip: Scene">
+                      animation-mixer="clip: Scene; timeScale: 0.5">
             </a-entity>
         </a-marker>
         <a-entity camera></a-entity>
