@@ -26,15 +26,14 @@
     <a-scene embedded arjs='sourceType: webcam;'>
         <a-marker preset="custom" type='pattern' url='ARcodes/pattern-chiaroscurocycleslogo.patt' 
                   emitevents="true" id="cyclesMarker">
-            <!-- Properly oriented video element -->
-            <a-video id="videoElement"
-                     src="videos/stars.mp4" 
-                     position="0 0 0" 
-                     width="1.5" height="1.5"
-                     rotation="-90 0 0" 
-                     visible="false"
-                     loop="true">
-            </a-video>
+            <!-- 3D Model -->
+            <a-entity id="mushroomModel"
+                      obj-model="obj: https://cdn.glitch.global/17c8cbdc-a457-4ed9-92f4-b5fda1b0a4be/uploads_files_4512219_mushroomSuperMario.obj?v=1740597642876" 
+                      position="0 0 0"
+                      scale="0.5 0.5 0.5"
+                      rotation="-90 0 0"
+                      visible="false">
+            </a-entity>
         </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
@@ -45,30 +44,17 @@
         document.addEventListener('DOMContentLoaded', function () {
             const infoButton = document.getElementById('infoButton');
             const marker = document.getElementById('cyclesMarker');
-            const videoEntity = document.getElementById('videoElement');
-            const video = videoEntity.getAttribute('src'); // Getting video source URL
+            const model = document.getElementById('mushroomModel');
             const url = 'luminara/chiaroscurocycles.html';
 
             marker.addEventListener('markerFound', () => {
                 infoButton.style.display = 'block';
-                videoEntity.setAttribute('visible', 'true');
-
-                // Manually create an HTML video element and attach it to the A-Frame video texture
-                const htmlVideo = document.createElement("video");
-                htmlVideo.src = video;
-                htmlVideo.loop = true;
-                htmlVideo.muted = true; // Avoid autoplay restrictions
-                htmlVideo.setAttribute("playsinline", "true"); // For mobile
-                htmlVideo.play().catch(error => {
-                    console.error("Autoplay failed:", error);
-                });
-
-                videoEntity.components.material.material.map.image = htmlVideo;
+                model.setAttribute('visible', 'true');
             });
 
             marker.addEventListener('markerLost', () => {
                 infoButton.style.display = 'none';
-                videoEntity.setAttribute('visible', 'false');
+                model.setAttribute('visible', 'false');
             });
 
             infoButton.addEventListener('click', () => {
