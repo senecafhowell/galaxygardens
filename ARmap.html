@@ -43,6 +43,35 @@
             padding: 10px 20px;
             border-radius: 8px;
         }
+        /* Dropdown Menu */
+        .dropdown {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: white;
+            border: 2px solid black;
+            border-radius: 8px;
+            width: 180px;
+            text-align: left;
+            font-size: 18px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .dropdown-header {
+            padding: 10px;
+            background: #007BFF;
+            color: white;
+            border-radius: 6px 6px 0 0;
+        }
+        .dropdown-content {
+            display: none;
+            background: white;
+            border-radius: 0 0 6px 6px;
+            padding: 10px;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -64,6 +93,14 @@
     <button id="tryAgainButton" class="button">Try Again</button>
     <button id="infoButton" class="button">More Info</button>
 
+    <!-- Dropdown Menu -->
+    <div class="dropdown">
+        <div class="dropdown-header">Characters Unlocked ▼</div>
+        <div class="dropdown-content" id="characterList">
+            None
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const unlockButton = document.getElementById('unlockButton');
@@ -73,13 +110,14 @@
             const unlockMessage = document.getElementById('unlockMessage');
             const marker = document.getElementById('cyclesMarker');
             const model = document.getElementById('robotModel');
+            const characterList = document.getElementById('characterList');
             const url = 'luminara/chiaroscurocycles.html';
 
             let mashCount = 0;
             let timer;
             let gameActive = false;
             let markerVisible = false;
-            let characterUnlocked = false; // Tracks if character is unlocked
+            let characterUnlocked = false;
 
             marker.addEventListener('markerFound', () => {
                 markerVisible = true;
@@ -155,6 +193,9 @@
                 setTimeout(() => {
                     unlockMessage.style.display = 'none';
                 }, 5000);
+
+                // Update dropdown list
+                updateCharacterList("Lumen");
             }
 
             function failMinigame() {
@@ -165,7 +206,6 @@
 
             function resetGame() {
                 if (characterUnlocked) {
-                    // If unlocked, hide model & info when marker is lost
                     model.setAttribute('visible', 'false');
                     infoButton.style.display = 'none';
                 } else {
@@ -175,6 +215,14 @@
                     infoButton.style.display = 'none';
                     model.setAttribute('visible', 'false');
                     gameActive = false;
+                }
+            }
+
+            function updateCharacterList(character) {
+                if (characterList.innerHTML.trim() === "None") {
+                    characterList.innerHTML = character;
+                } else {
+                    characterList.innerHTML += `<br>${character}`;
                 }
             }
         });
