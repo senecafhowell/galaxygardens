@@ -10,6 +10,9 @@
             margin: 0;
             overflow: hidden;
             text-align: center;
+            -webkit-user-select: none; /* Prevent text selection on mobile */
+            user-select: none;
+            touch-action: manipulation; /* Prevent unwanted gestures like zoom */
         }
         .button {
             display: none;
@@ -79,14 +82,10 @@
                 }
             });
 
-            mashButton.addEventListener('click', () => {
-                if (!gameActive) return;
-
-                mashCount++;
-                if (mashCount >= 10) {
-                    clearTimeout(timer);
-                    unlockSuccess();
-                }
+            mashButton.addEventListener('click', handleMash);
+            mashButton.addEventListener('touchstart', function(event) {
+                event.preventDefault(); // Prevent double-tap zoom on mobile
+                handleMash();
             });
 
             tryAgainButton.addEventListener('click', () => {
@@ -98,6 +97,16 @@
             infoButton.addEventListener('click', () => {
                 window.location.href = url;
             });
+
+            function handleMash() {
+                if (!gameActive) return;
+                mashCount++;
+
+                if (mashCount >= 10) {
+                    clearTimeout(timer);
+                    unlockSuccess();
+                }
+            }
 
             function startMinigame() {
                 mashCount = 0;
