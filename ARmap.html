@@ -31,6 +31,18 @@
         #mashButton { top: 40%; }
         #tryAgainButton { top: 50%; }
         #infoButton { bottom: 20px; }
+        #unlockMessage {
+            display: none;
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 22px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body>
@@ -46,6 +58,7 @@
         <a-entity camera></a-entity>
     </a-scene>
 
+    <div id="unlockMessage">You unlocked Estella's sidekick, Lumen!</div>
     <button id="unlockButton" class="button">Unlock Character</button>
     <button id="mashButton" class="button">Mash!</button>
     <button id="tryAgainButton" class="button">Try Again</button>
@@ -57,6 +70,7 @@
             const mashButton = document.getElementById('mashButton');
             const tryAgainButton = document.getElementById('tryAgainButton');
             const infoButton = document.getElementById('infoButton');
+            const unlockMessage = document.getElementById('unlockMessage');
             const marker = document.getElementById('cyclesMarker');
             const model = document.getElementById('robotModel');
             const url = 'luminara/chiaroscurocycles.html';
@@ -69,13 +83,11 @@
 
             marker.addEventListener('markerFound', () => {
                 markerVisible = true;
-                
+
                 if (characterUnlocked) {
-                    // If already unlocked, show model & info button immediately
                     model.setAttribute('visible', 'true');
                     infoButton.style.display = 'block';
                 } else {
-                    // Otherwise, show Unlock Character button
                     unlockButton.style.display = 'block';
                 }
             });
@@ -133,10 +145,16 @@
 
             function unlockSuccess() {
                 gameActive = false;
-                characterUnlocked = true; // Mark as unlocked
+                characterUnlocked = true;
                 mashButton.style.display = 'none';
                 infoButton.style.display = 'block';
                 model.setAttribute('visible', 'true');
+
+                // Show unlock message and hide it after 5 seconds
+                unlockMessage.style.display = 'block';
+                setTimeout(() => {
+                    unlockMessage.style.display = 'none';
+                }, 5000);
             }
 
             function failMinigame() {
@@ -147,11 +165,10 @@
 
             function resetGame() {
                 if (characterUnlocked) {
-                    // If unlocked, always keep model and info button visible
-                    model.setAttribute('visible', 'true');
-                    infoButton.style.display = 'block';
+                    // If unlocked, hide model & info when marker is lost
+                    model.setAttribute('visible', 'false');
+                    infoButton.style.display = 'none';
                 } else {
-                    // Otherwise, hide everything when marker is lost
                     unlockButton.style.display = 'none';
                     mashButton.style.display = 'none';
                     tryAgainButton.style.display = 'none';
