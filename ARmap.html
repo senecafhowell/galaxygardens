@@ -10,9 +10,9 @@
             margin: 0;
             overflow: hidden;
             text-align: center;
-            -webkit-user-select: none; /* Prevent text selection on mobile */
+            -webkit-user-select: none;
             user-select: none;
-            touch-action: manipulation; /* Prevent unwanted gestures like zoom */
+            touch-action: manipulation;
         }
         .button {
             display: none;
@@ -65,10 +65,19 @@
             let timer;
             let gameActive = false;
             let markerVisible = false;
+            let characterUnlocked = false; // Tracks if character is unlocked
 
             marker.addEventListener('markerFound', () => {
                 markerVisible = true;
-                unlockButton.style.display = 'block';
+                
+                if (characterUnlocked) {
+                    // If already unlocked, show model & info button immediately
+                    model.setAttribute('visible', 'true');
+                    infoButton.style.display = 'block';
+                } else {
+                    // Otherwise, show Unlock Character button
+                    unlockButton.style.display = 'block';
+                }
             });
 
             marker.addEventListener('markerLost', () => {
@@ -77,14 +86,14 @@
             });
 
             unlockButton.addEventListener('click', () => {
-                if (markerVisible) {
+                if (markerVisible && !characterUnlocked) {
                     startMinigame();
                 }
             });
 
             mashButton.addEventListener('click', handleMash);
             mashButton.addEventListener('touchstart', function(event) {
-                event.preventDefault(); // Prevent double-tap zoom on mobile
+                event.preventDefault();
                 handleMash();
             });
 
@@ -124,6 +133,7 @@
 
             function unlockSuccess() {
                 gameActive = false;
+                characterUnlocked = true; // Mark as unlocked
                 mashButton.style.display = 'none';
                 infoButton.style.display = 'block';
                 model.setAttribute('visible', 'true');
@@ -136,12 +146,19 @@
             }
 
             function resetGame() {
-                unlockButton.style.display = 'none';
-                mashButton.style.display = 'none';
-                tryAgainButton.style.display = 'none';
-                infoButton.style.display = 'none';
-                model.setAttribute('visible', 'false');
-                gameActive = false;
+                if (characterUnlocked) {
+                    // If unlocked, always keep model and info button visible
+                    model.setAttribute('visible', 'true');
+                    infoButton.style.display = 'block';
+                } else {
+                    // Otherwise, hide everything when marker is lost
+                    unlockButton.style.display = 'none';
+                    mashButton.style.display = 'none';
+                    tryAgainButton.style.display = 'none';
+                    infoButton.style.display = 'none';
+                    model.setAttribute('visible', 'false');
+                    gameActive = false;
+                }
             }
         });
     </script>
