@@ -26,13 +26,14 @@
     <a-scene embedded arjs='sourceType: webcam;'>
         <a-marker preset="custom" type='pattern' url='ARcodes/pattern-chiaroscurocycleslogo.patt' 
                   emitevents="true" id="cyclesMarker">
-            <!-- 3D Model (GLB) -->
-            <a-entity id="waveModel"
-                      gltf-model="https://cdn.glitch.me/ee1dacd9-f757-4f69-904b-12ab9a2533f4/Wave.glb?v=1740429231526"
+            <a-entity id="robotModel"
+                      obj-model="obj: https://cdn.glitch.global/83b84f4f-1092-4f10-a916-172f3134acbe/Robot.obj?v=1741382743321; 
+                                 mtl: https://cdn.glitch.global/83b84f4f-1092-4f10-a916-172f3134acbe/Robot.mtl?v=1741382749323"
                       position="0 0 0"
                       scale="0.5 0.5 0.5"
-                      rotation="-90 0 0"
-                      visible="false">
+                      rotation="0 0 0"
+                      visible="false"
+                      animation="property: rotation; from: 0 0 0; to: 0 360 0; dur: 1000; easing: linear; loop: true; dir: alternate;">
             </a-entity>
         </a-marker>
         <a-entity camera></a-entity>
@@ -44,7 +45,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             const infoButton = document.getElementById('infoButton');
             const marker = document.getElementById('cyclesMarker');
-            const model = document.getElementById('waveModel');
+            const model = document.getElementById('robotModel');
             const url = 'luminara/chiaroscurocycles.html';
 
             marker.addEventListener('markerFound', () => {
