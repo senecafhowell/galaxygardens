@@ -77,16 +77,16 @@
 
     <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
         <a-assets>
-            <a-asset-item id="robot" src="videos/robot.glb"></a-asset-item>
+            <a-asset-item id="atlas" src="videos/atlas.glb"></a-asset-item>
         </a-assets>
 
         <a-marker preset="custom" type="pattern" url="ARcodes/pattern-chiaroscurocycleslogo.patt" emitevents="true" id="cyclesMarker">
-            <a-entity id="robotModel" gltf-model="#robot" position="0 0.2 0" scale="2 2 2" visible="false"></a-entity>
+            <a-entity id="atlasModel" gltf-model="#atlas" position="0 0.2 0" scale="1.5 1.5 1.5" visible="false"></a-entity>
         </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
 
-    <div id="unlockMessage">You unlocked Estella's sidekick, Lumen!</div>
+    <div id="unlockMessage">You unlocked Atlas, leader of the Noctari!</div>
     <button id="unlockButton" class="button">Unlock Character</button>
     <button id="mashButton" class="button">Mash!</button>
     <button id="tryAgainButton" class="button">Try Again</button>
@@ -108,7 +108,7 @@
             const infoButton = document.getElementById('infoButton');
             const unlockMessage = document.getElementById('unlockMessage');
             const marker = document.getElementById('cyclesMarker');
-            const model = document.getElementById('robotModel');
+            const model = document.getElementById('atlasModel');
             const characterList = document.getElementById('characterList');
             const dropdownMenu = document.getElementById('dropdownMenu');
             const dropdownContent = document.getElementById('characterList');
