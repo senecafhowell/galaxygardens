@@ -27,7 +27,7 @@
             border-radius: 8px;
             cursor: pointer;
         }
-        #unlockButton { top: 40%; }
+        #unlockButton, #unlockSecretButton { top: 40%; }
         #mashButton { top: 40%; }
         #tryAgainButton { top: 50%; }
         #infoButton { bottom: 20px; }
@@ -113,11 +113,23 @@
                   animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear"></a-entity>
     </a-marker>
 
+    <!-- Additional secret markers -->
+    <a-marker preset="custom" type="pattern" url="ARcodes/pattern-flight2real-01.patt" emitevents="true" id="flightSecretMarker">
+        <a-entity position="0 0.2 0" scale="0.65 0.65 0.65"></a-entity>
+    </a-marker>
+    <a-marker preset="custom" type="pattern" url="ARcodes/pattern-cycles2cmyk.patt" emitevents="true" id="cyclesSecretMarker">
+        <a-entity position="0 0.2 0" scale="0.65 0.65 0.65"></a-entity>
+    </a-marker>
+    <a-marker preset="custom" type="pattern" url="ARcodes/pattern-eclipse2-01.patt" emitevents="true" id="eclipseSecretMarker">
+        <a-entity position="0 0.2 0" scale="0.65 0.65 0.65"></a-entity>
+    </a-marker>
+
     <a-entity camera></a-entity>
 </a-scene>
 
 <div id="unlockMessage"></div>
 <button id="unlockButton" class="button">Unlock Character</button>
+<button id="unlockSecretButton" class="button">Unlock Secret</button>
 <button id="mashButton" class="button">Mash!</button>
 <button id="tryAgainButton" class="button">Try Again</button>
 <button id="infoButton" class="button">More Info</button>
@@ -130,7 +142,7 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const markers = [
+        const standardMarkers = [
             {id: 'orionMarker', modelId: 'orionModel', message: 'You are scanning in Orion, the neutral wanderer!', name: 'Orion', unlocked: false},
             {id: 'estellaMarker', modelId: 'estellaModel', message: 'You are scanning in Estella, leader of the Solari light-based faction!', name: 'Estella', unlocked: false},
             {id: 'atlasMarker', modelId: 'atlasModel', message: 'You are scanning in Atlas, leader of the Noctari night-based faction!', name: 'Atlas', unlocked: false},
@@ -138,7 +150,14 @@
             {id: 'lumenMarker', modelId: 'lumenModel', message: 'You are scanning in Lumen, expert assistant of Estella!', name: 'Lumen', unlocked: false}
         ];
 
+        const secretMarkers = [
+            {id: 'flightSecretMarker', link: '/luminara/flightsecret7128.html'},
+            {id: 'cyclesSecretMarker', link: '/luminara/cyclessecret9951.html'},
+            {id: 'eclipseSecretMarker', link: '/luminara/eclipsesecret20307.html'}
+        ];
+
         const unlockButton = document.getElementById('unlockButton');
+        const unlockSecretButton = document.getElementById('unlockSecretButton');
         const mashButton = document.getElementById('mashButton');
         const tryAgainButton = document.getElementById('tryAgainButton');
         const infoButton = document.getElementById('infoButton');
@@ -153,7 +172,8 @@
         let gameActive = false;
         let dropdownOpen = false;
 
-        markers.forEach(marker => {
+        // Handling standard markers
+        standardMarkers.forEach(marker => {
             const element = document.getElementById(marker.id);
             const model = document.getElementById(marker.modelId);
 
@@ -170,6 +190,24 @@
             element.addEventListener('markerLost', () => {
                 if (currentMarker && currentMarker.id === marker.id) {
                     resetGame();
+                    currentMarker = null;
+                }
+            });
+        });
+
+        // Handling secret markers
+        secretMarkers.forEach(marker => {
+            const element = document.getElementById(marker.id);
+
+            element.addEventListener('markerFound', () => {
+                currentMarker = marker;
+                unlockSecretButton.style.display = 'block';
+                unlockSecretButton.onclick = () => { window.location.href = marker.link; };
+            });
+
+            element.addEventListener('markerLost', () => {
+                if (currentMarker && currentMarker.id === marker.id) {
+                    unlockSecretButton.style.display = 'none';
                     currentMarker = null;
                 }
             });
@@ -235,10 +273,10 @@
             infoButton.style.display = 'block';
             const model = document.getElementById(currentMarker.modelId);
             model.setAttribute('visible', 'true');
-            unlockMessage.innerText = currentMarker.message; // Set the message after winning the game
+            unlockMessage.innerText = currentMarker.message;
             unlockMessage.style.display = 'block';
             setTimeout(() => {
-                unlockMessage.style.display = 'none'; // Hide message after 10 seconds
+                unlockMessage.style.display = 'none';
             }, 10000);
             updateCharacterList(currentMarker.name);
         }
@@ -254,6 +292,7 @@
             model.setAttribute('visible', 'false');
             infoButton.style.display = 'none';
             unlockButton.style.display = 'none';
+            unlockSecretButton.style.display = 'none';
             mashButton.style.display = 'none';
             tryAgainButton.style.display = 'none';
             gameActive = false;
