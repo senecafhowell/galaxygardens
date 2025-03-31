@@ -131,11 +131,11 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const markers = [
-            {id: 'orionMarker', modelId: 'orionModel', message: 'You are scanning in Orion, the neutral wanderer!', name: 'Orion'},
-            {id: 'estellaMarker', modelId: 'estellaModel', message: 'You are scanning in Estella, leader of the Solari light-based faction!', name: 'Estella'},
-            {id: 'atlasMarker', modelId: 'atlasModel', message: 'You are scanning in Atlas, leader of the Noctari night-based faction!', name: 'Atlas'},
-            {id: 'fishMarker', modelId: 'fishModel', message: 'You are scanning in a fish of the Dark Lake, who has seen the lost Eclipse Pearl!', name: 'Dark Lake Fish'},
-            {id: 'lumenMarker', modelId: 'lumenModel', message: 'You are scanning in Lumen, expert assistant of Estella!', name: 'Lumen'}
+            {id: 'orionMarker', modelId: 'orionModel', message: 'You are scanning in Orion, the neutral wanderer!', name: 'Orion', unlocked: false},
+            {id: 'estellaMarker', modelId: 'estellaModel', message: 'You are scanning in Estella, leader of the Solari light-based faction!', name: 'Estella', unlocked: false},
+            {id: 'atlasMarker', modelId: 'atlasModel', message: 'You are scanning in Atlas, leader of the Noctari night-based faction!', name: 'Atlas', unlocked: false},
+            {id: 'fishMarker', modelId: 'fishModel', message: 'You are scanning in a fish of the Dark Lake, who has seen the lost Eclipse Pearl!', name: 'Dark Lake Fish', unlocked: false},
+            {id: 'lumenMarker', modelId: 'lumenModel', message: 'You are scanning in Lumen, expert assistant of Estella!', name: 'Lumen', unlocked: false}
         ];
 
         const unlockButton = document.getElementById('unlockButton');
@@ -151,7 +151,6 @@
         let mashCount = 0;
         let timer;
         let gameActive = false;
-        let characterUnlocked = false;
         let dropdownOpen = false;
 
         markers.forEach(marker => {
@@ -163,7 +162,7 @@
                 unlockMessage.innerText = marker.message;
                 unlockMessage.style.display = 'block';
 
-                if (characterUnlocked) {
+                if (marker.unlocked) {
                     model.setAttribute('visible', 'true');
                     infoButton.style.display = 'block';
                 } else {
@@ -180,7 +179,7 @@
         });
 
         unlockButton.addEventListener('click', () => {
-            if (currentMarker && !characterUnlocked) {
+            if (currentMarker && !currentMarker.unlocked) {
                 startMinigame();
             }
         });
@@ -234,7 +233,7 @@
 
         function unlockSuccess() {
             gameActive = false;
-            characterUnlocked = true;
+            currentMarker.unlocked = true;
             mashButton.style.display = 'none';
             infoButton.style.display = 'block';
             const model = document.getElementById(currentMarker.modelId);
