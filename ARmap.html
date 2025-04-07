@@ -74,11 +74,32 @@
 </head>
 <body>
 
-    <div id="introPopup" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.9); color: white; display: flex; flex-direction: column;
-    justify-content: center; align-items: center; padding: 20px; z-index: 9999; text-align: left;">
-    <div style="max-width: 600px; font-size: 16px; line-height: 1.6; overflow-y: auto; max-height: 90%;">
-        <h2 style="font-size: 22px; margin-bottom: 15px;">Welcome to Luminara</h2>
+    <div id="introPopup" style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    z-index: 9999;
+">
+    <div style="
+        max-width: 90vw;
+        max-height: 90vh;
+        padding: 20px;
+        font-size: 15px;
+        line-height: 1.5;
+        text-align: left;
+        overflow-y: auto;
+        background-color: rgba(0, 0, 0, 0.95);
+        border-radius: 10px;
+    ">
+        <h2 style="font-size: 20px; margin-bottom: 15px;">Welcome to Luminara</h2>
         <p>
             Luminara, the twilight world of Galaxy Gardens, bathes in eternal dusk, thanks to its distant position from the sun.
             Two ancient tribes, the Solari and the Noctari, dwell here, guardians of light and mystics of shadow respectively.
@@ -93,12 +114,22 @@
         <p>
             And, if you go looking for more at the real-life locations of the attractions on the map, who knows what additional secrets you may uncover!
         </p>
-        <button onclick="closeIntroPopup()" style="margin-top: 20px; padding: 12px 24px; font-size: 18px;
-                background-color: #007BFF; color: white; border: none; border-radius: 10px; cursor: pointer;">
-            Let's Go!
-        </button>
+        <div style="text-align: center; margin-top: 20px;">
+            <button onclick="closeIntroPopup()" style="
+                padding: 12px 24px;
+                font-size: 16px;
+                background-color: #007BFF;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+            ">
+                Let's Go!
+            </button>
+        </div>
     </div>
 </div>
+
 
 <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
     <a-assets>
